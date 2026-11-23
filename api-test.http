@@ -1,0 +1,48 @@
+# Week-02 Task API 请求集合（IDEA 里逐行点绿色 ▶ 发送）
+# 接口文档： http://localhost:8080/swagger-ui.html
+# JSON 描述： http://localhost:8080/v3/api-docs
+# 注意：数据存在内存里，重启服务会清空；请按 2 → 4 → 5 → 7 → 8 的顺序跑
+
+### 1. 健康检查：统一响应 code=0
+GET http://localhost:8081/api/health
+
+### 2. 新增任务：201，code=0，data.id=1
+POST http://localhost:8081/api/tasks
+Content-Type: application/json
+
+{
+  "title": "写周报",
+  "description": "周五前完成"
+}
+
+### 3. 参数错误：标题为空 → 400，code=40002
+POST http://localhost:8081/api/tasks
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "周五前完成"
+}
+
+### 4. 任务列表：200，data 是数组
+GET http://localhost:8081/api/tasks
+
+### 5. 任务详情：200
+GET http://localhost:8081/api/tasks/1
+
+### 6. 数据不存在：404，code=40401
+GET http://localhost:8081/api/tasks/999
+
+### 7. 局部修改：只传 completed，分组校验放行 → 200
+PUT http://localhost:8081/api/tasks/1
+Content-Type: application/json
+
+{
+  "completed": true
+}
+
+### 8. 删除任务：200，code=0，data=null
+DELETE http://localhost:8081/api/tasks/1
+
+### 9. 删除不存在的任务：404，code=40401
+DELETE http://localhost:8081/api/tasks/999
